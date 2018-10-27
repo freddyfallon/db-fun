@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db-fun:
+    image: db-fun
+    build: .
+    links:
+      - postgres
+      - mongodb
+    depends_on:
+      - postgres
+      - mongodb
+    volumes:
+      - ./:/app/
+    ports:
+      - '3000:3000'
+    environment:
+      POSTGRESQL_URI: postgres://dbuser:coolpw@postgres/dbfun
+  postgres:
+    image: postgres:10.3-alpine
+    environment:
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: coolpw
+      POSTGRES_DB: dbfun
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  mongodb:
+    image: mongo:4
+    ports: ['21017:27017']
