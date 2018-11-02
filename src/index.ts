@@ -2,12 +2,14 @@ import Koa from 'koa'
 import Router from 'koa-router'
 
 import { checkPostgresConnection } from './databases/postgres/connect'
+import checkMongoConnection from './databases/mongodb/index'
 import getRows from './databases/postgres/index'
 
 const app = new Koa()
 const router = new Router()
 
 checkPostgresConnection()
+checkMongoConnection()
 
 getRows().then(console.log)
 
